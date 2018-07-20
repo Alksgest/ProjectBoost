@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
-
     public float rcsThrust = 100f;
     public float mainThrust = 20f;
     public float levelLoadDelay = 3f;
@@ -22,6 +21,8 @@ public class Rocket : MonoBehaviour
     private Rigidbody rigidBody;
     private AudioSource AudioSource;
     private State state = Rocket.State.Alive;
+
+    private static bool DebugModActive = false;
 
     enum State
     {
@@ -40,10 +41,44 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ChangeDebugMod();
+
+        if (DebugModActive)
+            ChangeScene();
+
+        if (Input.GetKeyDown(KeyCode.H))
+            ShowAllCommandKeys();
+
         if (state == State.Alive)
         {
             RespondToThrustInput();
             RespondToRotateInput();
+        }
+    }
+
+    private void ChangeScene()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+            LoadNextScene();
+        if (Input.GetKeyDown(KeyCode.P))
+            LoadPreviousScene();
+    }
+    private void ShowAllCommandKeys()
+    {
+        Debug.Log("Press \"C\" to actovate\\deactivate Debug Mod");
+        Debug.Log("Press \"N\" to load next scene");
+        Debug.Log("Press \"P\" to load previous scene");
+    }
+
+    private void ChangeDebugMod()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            DebugModActive = !DebugModActive;
+            if (DebugModActive)
+                Debug.Log("Debug mod activated.");
+            else
+                Debug.Log("Debug mod deactivated.");
         }
     }
 
@@ -85,21 +120,21 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)
-            return;
+            if (state != State.Alive || DebugModActive)
+                return;
 
-        switch(collision.gameObject.tag)
-        {
-            case "Friendly":
-                break;
+            switch (collision.gameObject.tag)
+            {
+                case "Friendly":
+                    break;
 
-            case "Finish":
-                StartSuccessSequence();
-                break;
+                case "Finish":
+                    StartSuccessSequence();
+                    break;
 
-            default:
-                StartDeathSequence();
-                break;
+                default:
+                    StartDeathSequence();
+                    break;          
         }
     }
 
@@ -130,8 +165,13 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextScene()
     {
-        if (SceneManager.GetActiveScene().buildIndex + 1 != 3)
+        if (SceneManager.GetActiveScene().buildIndex + 1 != SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    private void LoadPreviousScene()
+    {
+        if (SceneManager.GetActiveScene().buildIndex -1 != -1)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
 
