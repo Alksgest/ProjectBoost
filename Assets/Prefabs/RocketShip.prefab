@@ -185,7 +185,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: a49e5965e08dd1a4997fb5909fab99bb, type: 2}
+  - {fileID: 2100000, guid: fe6003fc23667bc48b2847888b6f3d5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +255,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: a49e5965e08dd1a4997fb5909fab99bb, type: 2}
+  - {fileID: 2100000, guid: fe6003fc23667bc48b2847888b6f3d5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -346,12 +346,12 @@ Rigidbody:
   m_GameObject: {fileID: 1352384513396932}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 72
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!65 &65286201668550126
 BoxCollider:
@@ -495,6 +495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5026dc5050ad046a9a69a0983b625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rcsThrust: 100
+  mainThrust: 20
 --- !u!135 &135411601111155752
 SphereCollider:
   m_ObjectHideFlags: 1
